@@ -53,4 +53,3 @@ def shortest_path(graph, start, end):
 end_node = 'E'
 path, cost = shortest_path(graph, start_node, end_node)
 print(f"Shortest path from {start_node} to {end_node}: {path} with cost {cost}")
-    
