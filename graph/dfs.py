@@ -14,10 +14,18 @@ class DFS:
         for next_node in self.graph[node] :
             self.visit(next_node)
 
-    def search(self, start_node) :
+    def dfs(self, start_node) :
         self.visited = set()
         self.visit(start_node)
         return self.visited
+
+    def display(self):
+        print("Adjacency list:")
+        for node in self.nodes:
+            neighbors = ", ".join(str(n) for n in sorted(self.graph.get(node, [])))
+            print(f"{node}: {neighbors}")
+
+
 
 d = DFS([1, 2, 3, 4, 5])
 d.add_edge(1, 2)
@@ -27,4 +35,6 @@ d.add_edge(2, 4)
 d.add_edge(2, 5)
 d.add_edge(3, 4)
 d.add_edge(4, 5)
-print(d.search(1))
+d.display()
+print()
+print(d.dfs(3))
