@@ -59,6 +59,8 @@ class BinaryTree:
             if curr.right:
                 queue.append(curr.right)
 
+    
+
 tree = BinaryTree()
 tree.insert(23)
 tree.insert(30)
