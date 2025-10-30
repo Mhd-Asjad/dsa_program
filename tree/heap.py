@@ -64,13 +64,54 @@ class MinHeap:
                 return False
         return True
 
-data = [2 , 30 , 20, 12, 9]
-heap = MinHeap()
-for i in data :
-    heap.insert(i)
+def heapify( n , arr , idx):
+    
+    left = (2 * idx) + 1
+    right = (2 * idx) + 2
+    largest = idx
 
-# heap.delete(30)
-# heap.delete(12)
+    if left < n and arr[left] > arr[largest]:
+        largest = left
+    if right < n and arr[right] > arr[largest]:
+        largest = right
+    
+    if largest != idx:
+        arr[idx], arr[largest] = arr[largest], arr[idx]
+        heapify(n ,arr, largest)
 
-print(heap.heap)
-print(heap.is_valid_heap())
+def heap_sort(arr):
+    n = len(arr)
+    print("original array:",arr)
+    for idx in range((n // 2) - 1 , -1 , -1):
+        heapify(n , arr, idx )
+
+
+    for i in range(n - 1, 0, -1):
+        arr[i], arr[0] = arr[0], arr[i]
+
+        heapify(i, arr, 0)
+    return arr
+
+
+# Example usage:
+
+if __name__ == "__main__":
+    heap = MinHeap()
+
+    data = [2 , 30 , 20, 12, 9]
+    for i in data :
+        heap.insert(i)
+
+    # delete elements
+    heap.delete(30)
+    heap.delete(12)
+
+    # check that heap is valid or not
+    print(heap.is_valid_heap())
+
+    # print the heap
+    print(heap.heap)
+
+    # heap sort
+    arr = [ 9 ,3 ,40 ,8 ,5]
+    print(heap_sort(arr))
