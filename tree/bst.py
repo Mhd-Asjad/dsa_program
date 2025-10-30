@@ -138,10 +138,100 @@ class BST:
             node = node.left
         return node.value
 
+    def get_max(self,node):
+        if node is None:
+            node = self.root
+        
+        while node.right :
+            node = node.right
+        return node.value
+    
 
+    def sec_min(self,node):
+        if node is None :
+            node = self.root
+        prev = None
+        current = node
+        while current.left :
+            prev = current
+            current = current.left
+        if current.right:
+            return self.get_min(current.right)
+        return prev.value
+    
+    
+    
+    def closeset_value(self,target):
+        def helper(node , closest , target):
+            if node is None :
+                return closest
+            
+            if abs(node.value - target) <= abs(closest - target):
+                closest = node.value
+
+            if target < node.value:
+                return helper(node.left , closest, target)
+            elif target > node.value: 
+                return helper(node.right, closest, target)
+            else :
+                return closest
+        return helper(self.root , self.root.value, target)
+    
+    def find_kth_largest(self,k):
+        s_list = []
+
+        def inorder(node):
+
+            if node is None:
+                return None
+            
+            inorder(node.left)
+            s_list.append(node.value)
+            inorder(node.right)
+
+        inorder(self.root)
+
+
+        if k > 0 and k < len(s_list):
+            return s_list[-k]
+        else:
+            return f'in sufficient position : {k}'
+        
+    def is_balnced(self):
+
+        return self.get_height_and_check_balance(self.root) != -1
+
+    def get_height_and_check_balance(self, node):
+        """
+        Helper function that returns:
+        - The node's height if it's balanced.
+        - -1 if it's unbalanced.
+        """
+        # Base case: An empty node has height 0 and is balanced.
+        if node is None:
+            return 0
+        
+        # 1. Check left subtree
+        left_height = self.get_height_and_check_balance(node.left)
+        # If the left subtree is unbalanced, pass the -1 signal up
+        if left_height == -1:
+            return -1
+            
+        # 2. Check right subtree
+        right_height = self.get_height_and_check_balance(node.right)
+        # If the right subtree is unbalanced, pass the -1 signal up
+        if right_height == -1:
+            return -1
+            
+        # 3. Check current node's balance
+        if abs(left_height - right_height) > 1:
+            return -1  # This node is unbalanced
+        
+        # 4. If all good, return the actual height
+        return 1 + max(left_height, right_height)
 
 Tree1 = BST()
-arr = [4 , 5 , 40, 44, 20]
+arr = [4 , 40, 44, 20]
 for i in arr:
     Tree1.insert(i)
 
@@ -151,6 +241,8 @@ print()
 print("After Deletion")
 display = Tree1.inorder_traversal(Tree1.root)
 print()
-print(Tree1.count_nodes(Tree1.root))
-res = Tree1.validate_bst()
-print(Tree1.get_min(Tree1.root))
+
+# res = Tree1.find_kth_largest(2)
+# print(res)
+
+print(Tree1.is_balnced())
